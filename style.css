@@ -4,6 +4,8 @@
 {
   margin: 0;
   padding: 0;
+  border: 0;
+  box-sizing: border-box;
 }
 
 body
@@ -21,7 +23,8 @@ body
   100% { background-position:   0% 50%; }
 }
 
-article
+article,
+form
 {
   width: 100%;
   height: 100%;
@@ -29,6 +32,14 @@ article
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+pre
+{
+  width: 100%;
+  height: 100%;
+  background: white;
+  padding: 1rem;
 }
 
 h1
@@ -43,4 +54,23 @@ p
 {
   color: #fff;
   font: calc(clamp(1rem, 2rem, 5vw)) sans-serif;
+}
+
+label
+{
+  color: #666;
+  font: bold calc(clamp(1rem, 3rem, 10vw)) sans-serif;
+  mix-blend-mode: color-burn;
+  padding-bottom: 1rem;
+}
+
+input
+{
+  font: normal calc(clamp(1rem, 2rem, 5vw)) sans-serif;
+  padding: 0.5rem 1rem;
+}
+
+input[type=password]
+{
+  width: calc(min(20rem, 100vw - 10rem));
 }
