@@ -8,7 +8,7 @@ class Cryptography
         name: "PBKDF2",
         hash: "SHA-512",
         salt: Cryptography.textEncoder.encode("thisIsTheSaltVector"),
-        iterations: 10000 // 10000000
+        iterations: 10000000
     };
 
     static aesParams = {
