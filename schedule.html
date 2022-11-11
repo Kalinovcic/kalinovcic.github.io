@@ -5,10 +5,11 @@
 <link rel=stylesheet href=reset.css>
 <link rel=stylesheet href=schedule.css>
 <title>Schedule Help</title>
-<details id=schedule>
+<h1><a href="https://t.me/DubravkaBot"><img src=img/telegram.svg alt="" role=presentation> t.me/DubravkaBot</a></h1>
+<details id=schedule open>
   <summary>Schedule</summary>
   <p>Any message where the first word starts with <em>sched</em> is considered a schedule request.
-  <p>After this keyword there is an optional date. See <a href=#date-format>date format</a> for more information about how this is formatted. If there is no date, the bot returns the schedule for today.
+  <p>After this keyword there is an optional date. See <a href=#date-format>date format</a> for more information about how this is formatted. If there is no date, Dubravka returns the schedule for today.
   <section class=chat>
     <p>schedule
     <p class=reply>
@@ -85,11 +86,11 @@
 </details>
 <details id=notifications>
   <summary>Notifications</summary>
-  <p>You will receive messages from the bot as notifications before the events.
+  <p>You will receive messages from Dubravka as notifications before the events.
   <section class=chat>
     <p class=reply>🔔 Heads up! driving in 1 hour
   </section>
-  <p>You can control when you get notifications through the bot's settings. To access the settings, send a message with a single word starting with <em>setting</em>, <em>option</em>, or <em>config</em>.
+  <p>You can control when you get notifications through Dubravka's settings. To access the settings, send a message with a single word starting with <em>setting</em>, <em>option</em>, or <em>config</em>.
   <section class=chat>
     <p>configure
     <p class=reply>Edit your notification settings:
@@ -102,9 +103,9 @@
 </details>
 <details id=date-format>
   <summary>Date format</summary>
-  <p class="tldr">tldr: <var>2022.11.28</var>, <var>11/28</var>, <var>nov 28</var> etc. or <var>today</var>, <var>tomorrow</var>, <var>sunday</var>, etc.
+  <p class=tldr>tldr: <var>2022.11.28</var>, <var>11/28</var>, <var>nov 28</var> etc. or <var>today</var>, <var>tomorrow</var>, <var>sunday</var>, etc.
 
-  <p>When parsing dates, the bot first checks for special named dates. These are, in English: <em>today</em>, <em>tomorrow</em>, <em>yesterday</em>, and in Croatian: <em>danas</em>, <em>sutra</em>, <em>preksutra</em>, <em>jucer</em>, <em>prekjucer</em>. Text is compared case-insensitive.
+  <p>When parsing dates, Dubravka first checks for special named dates. These are, in English: <em>today</em>, <em>tomorrow</em>, <em>yesterday</em>, and in Croatian: <em>danas</em>, <em>sutra</em>, <em>preksutra</em>, <em>jucer</em>, <em>prekjucer</em>. Text is compared case-insensitive.
   <p>After that, named weekdays are checked. In English, <em>mon</em>, <em>tue</em>, <em>wed</em>, <em>thu</em>, <em>fri</em>, <em>sat</em>, <em>sun</em> and the corresponding full names, and in Croatian <em>pon</em>, <em>uto</em>, <em>sri</em>, <em>cet</em>, <em>pet</em>, <em>sub</em>, <em>ned</em> and the corresponding full names. These always refer to the next matching day, not including today. Text is compared case-insensitive.
   <p>If the first token is a number, and the number is between <em>2020</em> and <em>2100</em>, it is interpreted as a year.
   <p>After that, a numeric or named month is expected. Named months are in English only: <em>jan</em>, <em>feb</em>, <em>mar</em>, <em>apr</em>, <em>may</em>, <em>jun</em>, <em>jul</em>, <em>aug</em>, <em>sep</em>, <em>oct</em>, <em>nov</em>, <em>dec</em> and the corresponding full names. Text is compared case-insensitive.
@@ -113,7 +114,7 @@
 </details>
 <details id=time-format>
   <summary>Time format</summary>
-  <p class="tldr">tldr: optional date, followed by <var>15</var>, <var>3pm</var>, <var>3.00</var>, <var>3:45</var>, etc.
+  <p class=tldr>tldr: optional date, followed by <var>15</var>, <var>3pm</var>, <var>3.00</var>, <var>3:45</var>, etc.
 
   <p>When parsing times, there is always an optional leading date. If the date is missing, the implied date is today. See <a href=#date-format>date format</a> for more information about how this is formatted.
   <p>The first part of a time is always the hour, which is initially interpreted as on a 24-hour clock. For convenience, hour 24 is also allowed and interpreted as 0.
@@ -133,5 +134,5 @@ function openTarget()
   }
 }
 window.addEventListener("hashchange", openTarget);
-openTarget();
+window.addEventListener("load", openTarget);
 </script>
