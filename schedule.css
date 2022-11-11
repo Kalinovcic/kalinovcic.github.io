@@ -8,6 +8,7 @@ html {
 
   --background100: #0E1621;
   --background500: #17212B;
+  --background600: #1E2C3A;
   --background900: #242F3D;
 
   --text: #fff;
@@ -49,7 +50,7 @@ body {
 
 
 h1 a {
-  --size: clamp(1.5rem, 10vw, 3rem);
+  --size: clamp(1.5rem, 7vw, 3rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -200,7 +201,7 @@ var {
 .chat td {
   text-align: center;
   font-size: 0.9em;
-  background: #1E2C3A;
+  background: var(--background600);
   padding: 0.5rem 1rem;
   border-radius: var(--radius-button);
 }
