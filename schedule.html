@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang=en>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width, initial-scale=1.0">
+<link rel=stylesheet href=reset.css>
+<link rel=stylesheet href=schedule.css>
+<title>Schedule Help</title>
+<details id=schedule>
+  <summary>Schedule</summary>
+  <p>Any message where the first word starts with <em>sched</em> is considered a schedule request.
+  <p>After this keyword there is an optional date. See <a href=#date-format>date format</a> for more information about how this is formatted. If there is no date, the bot returns the schedule for today.
+  <section class=chat>
+    <p>schedule
+    <p class=reply>
+      🗓️ Wednesday 2022/11/9<br>
+      ➖ <var>Q</var> 12₀₀:  nasp lab 4<br>
+      ➖ <var>U</var> 15₀₀:  driving<br>
+      ➖ <var>M</var> 19₄₅:  choir
+    <p>sched tomorrow
+    <p class=reply>
+      🗓️ Thursday 2022/11/10<br>
+      ➖ <var>N</var> 11₃₀:  meeting<br>
+      ➖ <var>V</var> 15₀₀:  driving
+  </section>
+  <p>If two events are within 15 minutes or less from each other, they are considered potentially confliting, and you will see a warning icon ⚠️ in front of them. If this is not an issue, you can ignore the warning.
+  <section class=chat>
+    <p>sched
+    <p class=reply>
+      🗓️ Wednesday 2022/11/9<br>
+      ➖ <var>Q</var> 12₀₀:  nasp lab 4<br>
+      ➖ <var>U</var> 15₀₀:  driving<br>
+      ⚠️ <var>M</var> 19₄₅:  choir<br>
+      ⚠️ <var>P</var> 20₀₀:  dentist
+  </section>
+</details>
+<details id=adding-events>
+  <summary>Adding events</summary>
+  <p>To add events to the schedule, put a time followed by the description. You can add more than one event by placing them in separate lines in the same message.
+  <p>After adding an event, you'll receive a schedule for the days you edited. The newly added events will have a checkmark icon ✅ in front of them.
+  <section class=chat>
+    <p>sched tomorrow
+    <p class=reply>
+      🗓️ Thursday 2022/11/10<br>
+      ➖ <var>V</var> 15₀₀:  driving
+    <p>tomorrow 11.30 meeting
+    <p class=reply>
+      🗓️ Thursday 2022/11/10<br>
+      ✅ <var>N</var> 11₃₀:  meeting<br>
+      ➖ <var>V</var> 15₀₀:  driving
+    <p>
+      thu 20 dentist<br>
+      fri 15 driving<br>
+      fri 8 30 pm meeting
+    <p class=reply>
+      🗓️ Thursday 2022/11/10<br>
+      ➖ <var>N</var> 11₃₀:  meeting<br>
+      ➖ <var>V</var> 15₀₀:  driving<br>
+      ✅ <var>W</var> 20₀₀:  dentist<br>
+      <br>
+      🗓️ Friday 2022/11/11<br>
+      ✅ <var>X</var> 15₀₀:  driving<br>
+      ✅ <var>Y</var> 20₃₀:  meeting<br>
+  </section>
+</details>
+<details id=notifications>
+  <summary>Notifications</summary>
+  <p>You will receive messages from the bot as notifications before the events.
+  <section class=chat>
+    <p class=reply>🔔 Heads up! driving in 1 hour
+  </section>
+  <p>You can control when you get notifications through the bot's settings. To access the settings, send a message with a single word starting with <em>setting</em>, <em>option</em>, or <em>config</em>.
+  <section class=chat>
+    <p>configure
+    <p class=reply>Edit your notification settings:
+      <table>
+        <tr><td> 5 min ✅  <td> 10 min ✖️ <td> 15 min ✖️
+        <tr><td> 30 min ✅ <td> 1 h ✅    <td> 2 h ✖️
+        <tr><td> 4 h ✖️    <td> 24 h ✅   <td> 48 min ✖️
+      </table>
+  </section>
+</details>
+<details id=removing-events>
+  <summary>Removing events</summary>
+  <p>Any message where the first word starts with <em>rem</em> or <em>del</em> is considered an event removal request.
+  <p>After this keyword, put a list of case-insensitive event IDs. You can find these IDs in schedule listings in front of the time. On mobile devices, tap on the ID to copy it.
+  <section class=chat>
+    <p>schedule
+    <p class=reply>
+      🗓️ Wednesday 2022/11/9<br>
+      ➖ <var>Q</var> 12₀₀:  nasp lab 4<br>
+      ➖ <var>U</var> 15₀₀:  driving<br>
+      ⚠️ <var>M</var> 19₄₅:  choir<br>
+      ⚠️ <var>P</var> 20₀₀:  dentist
+    <p>remove q p
+    <p class=reply>Removed 2 scheduled events
+    <p>schedule
+    <p class=reply>
+      🗓️ Wednesday 2022/11/9<br>
+      ➖ <var>U</var> 15₀₀:  driving<br>
+      ➖ <var>M</var> 19₄₅:  choir<br>
+  </section>
+</details>
+<details id=date-format>
+  <summary>Date format</summary>
+  <p class="tldr">tldr: <var>2022.11.28</var>, <var>11/28</var>, <var>nov 28</var> etc. or <var>today</var>, <var>tomorrow</var>, <var>sunday</var>, etc.
+
+  <p>When parsing dates, the bot first checks for special named dates. These are, in English: <em>today</em>, <em>tomorrow</em>, <em>yesterday</em>, and in Croatian: <em>danas</em>, <em>sutra</em>, <em>preksutra</em>, <em>jucer</em>, <em>prekjucer</em>. Text is compared case-insensitive.
+  <p>After that, named weekdays are checked. In English, <em>mon</em>, <em>tue</em>, <em>wed</em>, <em>thu</em>, <em>fri</em>, <em>sat</em>, <em>sun</em> and the corresponding full names, and in Croatian <em>pon</em>, <em>uto</em>, <em>sri</em>, <em>cet</em>, <em>pet</em>, <em>sub</em>, <em>ned</em> and the corresponding full names. These always refer to the next matching day, not including today. Text is compared case-insensitive.
+  <p>If the first token is a number, and the number is between <em>2020</em> and <em>2100</em>, it is interpreted as a year.
+  <p>After that, a numeric or named month is expected. Named months are in English only: <em>jan</em>, <em>feb</em>, <em>mar</em>, <em>apr</em>, <em>may</em>, <em>jun</em>, <em>jul</em>, <em>aug</em>, <em>sep</em>, <em>oct</em>, <em>nov</em>, <em>dec</em> and the corresponding full names. Text is compared case-insensitive.
+  <p>Finally, after a month comes a numeric date.
+  <p>Whitespace characters and separator characters <var>'-'</var>, <var>'/'</var>, <var>':'</var>, <var>'.'</var>, <var>','</var> are ignored.
+</details>
+<details id=time-format>
+  <summary>Time format</summary>
+  <p class="tldr">tldr: optional date, followed by <var>15</var>, <var>3pm</var>, <var>3.00</var>, <var>3:45</var>, etc.
+
+  <p>When parsing times, there is always an optional leading date. If the date is missing, the implied date is today. See <a href=#date-format>date format</a> for more information about how this is formatted.
+  <p>The first part of a time is always the hour, which is initially interpreted as on a 24-hour clock. For convenience, hour 24 is also allowed and interpreted as 0.
+  <p>After the hour, there can optionally be minutes, a number between 0 and 59.
+  <p>If the time is followed by <em>am</em> or <em>pm</em>, the hour is reinterpreted as on a 12-hour clock. For convenience, hour 0 is also allowed and interpreted as 12.
+  <p>Whitespace characters and separator characters <var>'-'</var>, <var>'/'</var>, <var>':'</var>, <var>'.'</var>, <var>','</var> are ignored.
+</details>
+<script>
+function openTarget()
+{
+  var hash = location.hash.substring(1);
+  var details = document.getElementById(hash);
+  if (details && details.tagName.toLowerCase() === "details")
+  {
+    details.open = true;
+    details.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+window.addEventListener("hashchange", openTarget);
+openTarget();
+</script>
