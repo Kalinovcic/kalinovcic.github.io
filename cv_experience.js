@@ -4,6 +4,7 @@ let theExperience = [
         category: "education",
         fromYear: 2007, fromMonth: 9,
         toYear: 2015,   toMonth:   6,
+        level: 0,
     },
     {
         name: "Mathematical High School",
@@ -24,6 +25,7 @@ let theExperience = [
         category: "education",
         fromYear: 2015, fromMonth: 9,
         toYear: 2019,   toMonth:   6,
+        level: 0,
     },
     {
         name: "Bachelor of Science in Computing",
@@ -39,6 +41,7 @@ let theExperience = [
         category: "education",
         fromYear: 2019, fromMonth: 9,
         toYear: 2022,   toMonth:   6,
+        level: 0,
     },
     {
         name: "Driver's License (EU class B, ongoing)",
@@ -47,6 +50,7 @@ let theExperience = [
         category: "education",
         fromYear: 2022, fromMonth: 9,
         // toYear: 2023,   toMonth:   1,
+        level: 0,
     },
 
     {
@@ -57,6 +61,7 @@ let theExperience = [
         category: "work",
         fromYear: 2016, fromMonth: 2,
         toYear: 2020,   toMonth:   4,
+        level: 0,
     },
     {
         name: "Expert for Competition Tasks",
@@ -69,6 +74,7 @@ let theExperience = [
         category: "work",
         fromYear: 2018, fromMonth: 1,
         toYear: 2022,   toMonth:   3,
+        level: 1,
     },
     {
         name: "National Committee for\nSoftware Development",
@@ -81,6 +87,7 @@ let theExperience = [
         category: "work",
         fromYear: 2019, fromMonth: 2,
         toYear: 2022,   toMonth:   3,
+        level: 2,
     },
     {
         name: "Software Developer",
@@ -93,6 +100,7 @@ let theExperience = [
              + "• Tableau web data connectors",
         category: "work",
         fromYear: 2020, fromMonth: 3,
+        level: 3,
     },
     {
         name: "Founder, Software Developer",
@@ -104,6 +112,7 @@ let theExperience = [
              + "• novel methodology and software for TV ratings",
         category: "work",
         fromYear: 2021, fromMonth: 10,
+        level: 0,
     },
     {
         name: "Programming Educator",
@@ -112,5 +121,6 @@ let theExperience = [
         location: "Zagreb, Croatia",
         category: "work",
         fromYear: 2022, fromMonth: 12,
+        level: 1,
     },
 ];

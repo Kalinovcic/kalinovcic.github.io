@@ -107,8 +107,13 @@ if (chart)
         let colorA = data.from;
         let colorB = data.to;
         let colorT = unlerp(0, data.count - 1, data.index);
-        it.significance = remap(0, data.count - 1, data.index, 1, 0);
+        // it.level = data.index;
         data.index++;
+
+        let hue = it.category === "education" ? 210 : Math.round(colorT * 300);
+        it.fillColor   = `hsl(${hue}deg 70% 80%)`
+        it.strokeColor = `hsl(${hue}deg 70% 70%)`
+        continue;
 
         let color = {
             r: lerp(colorA.r, colorB.r, colorT),
@@ -144,31 +149,49 @@ if (chart)
 
         let y1 = yearToY(it.fromYear, it.fromMonth);
         let y2 = yearToY(it.toYear,   it.toMonth + 1);
-        let w  = remap01(0, 1, it.significance, 20, isEducation ? 50 : 60);
-        let x  = cx + (isEducation ? w : -w);
+
+        let levelStep  = 6;
+        let levelWidth = 4;
+        let x = cx + (18 + (it.level + 1.5) * levelStep) * (isEducation ? 1 : -1);
 
         it.renderedLine = { x: x, y1: y1, y2: y2 };
 
+        /*svgElement(chart, "path", {
+            "d":                `M${x} ${y1}L${x} ${y2}L${cx} ${y2}M${x} ${y1}L${cx} ${y1}`,
+            "stroke":           it.strokeColor,
+            "stroke-opacity":   0.8,
+            "fill":             "transparent"
+        });*/
+
         svgElement(chart, "rect", {
-            "x":                Math.min(x, cx),
+            "x":                x - levelStep * 0.5,
             "y":                y2,
-            "width":            w,
+            "width":            levelWidth,
             "height":           y1 - y2,
             "fill":             it.fillColor,
-            "fill-opacity":     0.4,
+            "fill-opacity":     0.8,
             "stroke":           it.strokeColor,
-            "stroke-width":     1.0,
-            "stroke-opacity":   1.0,
+        });
+        svgElement(chart, "path", {
+            "d":                `M${x} ${y1}L${cx} ${y1}M${x} ${y2}L${cx} ${y2}`,
+            "stroke":           it.strokeColor,
+            "stroke-dasharray": "1 1",
+            "fill":             "transparent"
         });
     }
 
-    svgLine(chart, vw / 2, 0, vw / 2, vh);
+    svgLine(chart, vw / 2, 0, vw / 2, vh, 3);
     for (let year = yearLo; year <= yearHi; year++)
     {
         let y = yearToY(year);
-        let w = (year % 5 == 0) ? 15 : 8;
-        svgLine(chart, cx - w, y, cx + w, y);
-        svgText(chart, cx + 4, y - 4, year);
+        let w = (year % 5 == 0) ? 20 : 15;
+        svgLine(chart, cx - w, y, cx + w, y, 3);
+        svgElement(chart, "text", {
+            "transform":   `translate(${cx+12},${y-5}) rotate(-90)`,
+            "fill":        "#f8f8f8",
+            "font-size":   "10px",
+            "font-family": "sans-serif"
+        }, year);
     }
     
     let fadeHeight = 30;
@@ -225,17 +248,8 @@ if (chart)
                 "d":                `M${x1} ${y1} C${x1 + c} ${y1},${x2 - c} ${y2},${x2} ${y2}`,
                 "stroke":           it.strokeColor,
                 "stroke-opacity":   0.8,
-                "stroke-dasharray": "6 2",
+                "stroke-dasharray": "1 1",
                 "fill":             "transparent"
-            });
-            svgElement(chart, "circle", {
-                "cx":               x2,
-                "cy":               y2,
-                "r":                2,
-                "stroke":           it.strokeColor,
-                "stroke-opacity":   0.8,
-                "fill":             it.strokeColor,
-                "fill-opacity":     0.4
             });
         }
         addText(it.at, "normal", "italic", it.atURL);
