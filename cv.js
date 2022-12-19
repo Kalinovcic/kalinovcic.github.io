@@ -185,7 +185,7 @@ if (chart)
     {
         let y = yearToY(year);
         let w = (year % 5 == 0) ? 20 : 15;
-        svgLine(chart, cx - w, y, cx + w, y, 3);
+        svgLine(chart, cx - w, y, cx + w, y, 2);
         svgElement(chart, "text", {
             "transform":   `translate(${cx+12},${y-5}) rotate(-90)`,
             "fill":        "#f8f8f8",
