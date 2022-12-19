@@ -102,6 +102,7 @@ if (chart)
 
     for (let it of experience)
     {
+        let isEducation = it.category === "education";
         let data = categoryData[it.category];
 
         let colorA = data.from;
@@ -110,24 +111,11 @@ if (chart)
         // it.level = data.index;
         data.index++;
 
-        let hue = it.category === "education" ? 210 : Math.round(colorT * 300);
-        it.fillColor   = `hsl(${hue}deg 70% 80%)`
-        it.strokeColor = `hsl(${hue}deg 70% 70%)`
-        continue;
-
-        let color = {
-            r: lerp(colorA.r, colorB.r, colorT),
-            g: lerp(colorA.g, colorB.g, colorT),
-            b: lerp(colorA.b, colorB.b, colorT),
-        };
-        it.fillColor = hexRGB(color.r, color.g, color.b);
-
-        let stroke = {
-            r: lerp(color.r, 255, 0.5),
-            g: lerp(color.g, 255, 0.5),
-            b: lerp(color.b, 255, 0.5),
-        };
-        it.strokeColor = hexRGB(stroke.r, stroke.g, stroke.b);
+        let hueStart = isEducation ? 180 : 300;
+        let hueRange = isEducation ? 100 : 180;
+        let hue = Math.round(hueStart + colorT * hueRange) % 360;
+        it.fillColor   = `hsl(${hue}deg 70% 75%)`
+        it.strokeColor = `hsl(${hue}deg 70% 80%)`
     }
 
 

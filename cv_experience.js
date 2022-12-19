@@ -64,30 +64,19 @@ let theExperience = [
         level: 0,
     },
     {
-        name: "Expert for Competition Tasks",
-        at: "Education and Teacher Training Agency",
-        atURL: "https://www.azoo.hr/",
-        location: "Zagreb, Croatia",
-        extra: "• authored algorithmic tasks for the national\n"
-             + "  computer science competition\n"
-             + "• presented intended solutions",
-        category: "work",
-        fromYear: 2018, fromMonth: 1,
-        toYear: 2022,   toMonth:   3,
-        level: 1,
-    },
-    {
         name: "National Committee for\nSoftware Development",
         at: "Education and Teacher Training Agency",
         atURL: "https://www.azoo.hr/",
         location: "Zagreb, Croatia",
         extra: "• evaluated software submissions\n"
+             + "• authored algorithmic tasks for the national\n"
+             + "  computer science competition\n"
              + "• provided feedback and advice for further\n"
              + "  development and improvement",
         category: "work",
         fromYear: 2019, fromMonth: 2,
         toYear: 2022,   toMonth:   3,
-        level: 2,
+        level: 1,
     },
     {
         name: "Software Developer",
@@ -100,7 +89,7 @@ let theExperience = [
              + "• Tableau web data connectors",
         category: "work",
         fromYear: 2020, fromMonth: 3,
-        level: 3,
+        level: 2,
     },
     {
         name: "Founder, Software Developer",
