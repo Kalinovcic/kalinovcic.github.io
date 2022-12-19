@@ -108,7 +108,6 @@ if (chart)
         let colorA = data.from;
         let colorB = data.to;
         let colorT = unlerp(0, data.count - 1, data.index);
-        // it.level = data.index;
         data.index++;
 
         let hueStart = isEducation ? 180 : 300;
@@ -143,13 +142,6 @@ if (chart)
         let x = cx + (18 + (it.level + 1.5) * levelStep) * (isEducation ? 1 : -1);
 
         it.renderedLine = { x: x, y1: y1, y2: y2 };
-
-        /*svgElement(chart, "path", {
-            "d":                `M${x} ${y1}L${x} ${y2}L${cx} ${y2}M${x} ${y1}L${cx} ${y1}`,
-            "stroke":           it.strokeColor,
-            "stroke-opacity":   0.8,
-            "fill":             "transparent"
-        });*/
 
         svgElement(chart, "rect", {
             "x":                x - levelStep * 0.5,
@@ -220,7 +212,6 @@ if (chart)
             y += 2;
         };
 
-        // addText(it.fromYear + " - " + (it.toYear || "present"));
         addText(it.name, "bold");
         if (lastText)
         {
