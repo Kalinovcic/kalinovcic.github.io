@@ -75,58 +75,46 @@ if (chart)
     for (let it of theExperience)
         experience.push({ ...it });
 
-    let categoryOrder = [ "education", "education-work", "programming-work" ];
-
-    let categoryColors = {
+    let categoryData = {
         "education": {
             from: { r: 160, g: 196, b: 255 },
             to:   { r: 156, g: 246, b: 255 },
         },
-        "education-work": {
-            from: { r: 189, g: 178, b: 255 },
-            to:   { r: 255, g: 198, b: 255 },
-        },
-        "programming-work": {
+        "work": {
             from: { r: 255, g: 174, b: 173 },
             to:   { r: 253, g: 255, b: 182 },
         },
     };
 
-    for (let category of categoryOrder)
+    for (let category of Object.keys(categoryData))
     {
         let count = 0;
         for (let it of experience)
             if (it.category === category)
                 count++;
-        categoryColors[category].count = count;
-        categoryColors[category].index = 0;
+        categoryData[category].count = count;
+        categoryData[category].index = 0;
     }
 
     experience.sort((a, b) =>
-    {
-        let ya = yearToY(a.toYear, a.toMonth + 1);
-        let yb = yearToY(b.toYear, b.toMonth + 1);
-        if (ya !== yb) return ya - yb;
-        ya = yearToY(a.fromYear, a.fromMonth);
-        yb = yearToY(b.fromYear, b.fromMonth);
-        return ya - yb;
-    });
+        (yearToY(a.toYear, a.toMonth + 1) - yearToY(b.toYear, b.toMonth + 1))
+     || (yearToY(a.fromYear, a.fromMonth) - yearToY(b.fromYear, b.fromMonth)));
 
     for (let it of experience)
     {
-        let category = it.category;
+        let data = categoryData[it.category];
 
-        let colorA = categoryColors[category].from;
-        let colorB = categoryColors[category].to;
-        let colorT = unlerp(0, categoryColors[category].count - 1, categoryColors[category].index);
-        categoryColors[category].index++;
+        let colorA = data.from;
+        let colorB = data.to;
+        let colorT = unlerp(0, data.count - 1, data.index);
+        it.significance = remap(0, data.count - 1, data.index, 1, 0);
+        data.index++;
 
         let color = {
             r: lerp(colorA.r, colorB.r, colorT),
             g: lerp(colorA.g, colorB.g, colorT),
             b: lerp(colorA.b, colorB.b, colorT),
         };
-
         it.fillColor = hexRGB(color.r, color.g, color.b);
 
         let stroke = {
@@ -140,19 +128,23 @@ if (chart)
 
     experience.sort((a, b) =>
     {
-        let ia = categoryOrder.indexOf(a.category);
-        let ib = categoryOrder.indexOf(b.category);
-        if (ia === ib) return b.significance - a.significance;
-        return ia - ib;
+        if (a.category === "education" && b.category !== "education") return  1;
+        if (a.category !== "education" && b.category === "education") return -1;
+        let ya = yearToY(a.toYear, a.toMonth + 1);
+        let yb = yearToY(b.toYear, b.toMonth + 1);
+        if (ya !== yb) return ya - yb;
+        ya = yearToY(a.fromYear, a.fromMonth);
+        yb = yearToY(b.fromYear, b.fromMonth);
+        return ya - yb;
     });
 
-    for (let it of experience)
+    for (let it of [ ...experience ].reverse())
     {
         let isEducation = it.category === "education";
 
         let y1 = yearToY(it.fromYear, it.fromMonth);
         let y2 = yearToY(it.toYear,   it.toMonth + 1);
-        let w  = remap01(0, 1, it.significance, 20, 50);
+        let w  = remap01(0, 1, it.significance, 20, isEducation ? 50 : 60);
         let x  = cx + (isEducation ? w : -w);
 
         it.renderedLine = { x: x, y1: y1, y2: y2 };
@@ -163,24 +155,12 @@ if (chart)
             "width":            w,
             "height":           y1 - y2,
             "fill":             it.fillColor,
-            "fill-opacity":     0.6,
+            "fill-opacity":     0.4,
             "stroke":           it.strokeColor,
             "stroke-width":     1.0,
             "stroke-opacity":   1.0,
         });
     }
-
-    experience.sort((a, b) =>
-    {
-        if (a.category === "education" && b.category !== "education") return  1;
-        if (a.category !== "education" && b.category === "education") return -1;
-        let ya = yearToY(a.toYear, a.toMonth + 1);
-        let yb = yearToY(b.toYear, b.toMonth + 1);
-        if (ya !== yb) return ya - yb;
-        ya = yearToY(a.fromYear, a.fromMonth);
-        yb = yearToY(b.fromYear, b.fromMonth);
-        return ya - yb;
-    });
 
     svgLine(chart, vw / 2, 0, vw / 2, vh);
     for (let year = yearLo; year <= yearHi; year++)
@@ -203,7 +183,7 @@ if (chart)
         let y = isEducation ? rightY : leftY;
         let x = isEducation ? cx + 70 : margin;
 
-        y = Math.max(y, lerp(it.renderedLine.y1, it.renderedLine.y2, 0.8));
+        y = Math.max(y, it.renderedLine.y2);
 
         let lastText = null;
         let addText = (text, fontWeight, fontStyle, url) =>
@@ -234,17 +214,28 @@ if (chart)
         if (lastText)
         {
             let box = lastText.getBBox();
-            let lineX = isEducation ? (box.x - 4) : (box.x + box.width + 4);
-            let lineY = lerp(it.renderedLine.y1, it.renderedLine.y2, 0.5);
-            svgElement(chart, "line", {
-                "x1":             lineX,
-                "y1":             box.y + box.height * 0.5,
-                "x2":             it.renderedLine.x,
-                "y2":             lineY,
-                "stroke":         it.strokeColor,
-                "stroke-width":   1,
-                "stroke-opacity": 0.8,
-                "stroke-dasharray": "4 2"
+
+            let x1 = isEducation ? (box.x - 4) : (box.x + box.width + 4);
+            let y1 = box.y + box.height * 0.5;
+            let x2 = it.renderedLine.x;
+            let y2 = lerp(it.renderedLine.y1, it.renderedLine.y2, 0.5);
+
+            let c = remap01(0, 100, Math.abs(y2 - y1), 10, 100) * (isEducation ? -0.4 : 1);
+            svgElement(chart, "path", {
+                "d":                `M${x1} ${y1} C${x1 + c} ${y1},${x2 - c} ${y2},${x2} ${y2}`,
+                "stroke":           it.strokeColor,
+                "stroke-opacity":   0.8,
+                "stroke-dasharray": "6 2",
+                "fill":             "transparent"
+            });
+            svgElement(chart, "circle", {
+                "cx":               x2,
+                "cy":               y2,
+                "r":                2,
+                "stroke":           it.strokeColor,
+                "stroke-opacity":   0.8,
+                "fill":             it.strokeColor,
+                "fill-opacity":     0.4
             });
         }
         addText(it.at, "normal", "italic", it.atURL);
