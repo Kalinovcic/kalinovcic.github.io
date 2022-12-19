@@ -48,7 +48,7 @@ function svgText(parent, x, y, text, fontWeight, fontStyle, fontSize, fontFamily
         "font-style":  fontStyle  || "normal",
         "font-size":   fontSize   || "8px",
         "font-family": fontSize   || "sans-serif",
-        "white-space": "pre",
+        "style":       "white-space: pre",
     }, text);
 }
 
