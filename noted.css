@@ -1,0 +1,9 @@
+.paper
+{
+    display: block;
+    margin: auto;
+    width: 210mm;
+    height: 297mm;
+    box-sizing: content-box;
+    border: 5px #eee solid;
+}
